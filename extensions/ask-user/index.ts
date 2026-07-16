@@ -1,5 +1,5 @@
 /**
- * ask_user - Lets the model ask a single multiple-choice question.
+ * ben_ask_user - Namespaced copy of the model-facing multiple-choice question tool.
  *
  * - 2 to 5 model-provided options, plus an always-present "Write my own answer" option
  * - Popup UI: arrow keys or number keys to pick, Enter to confirm
@@ -98,8 +98,8 @@ function wrapText(text: string, width: number): string[] {
 
 export default function askUser(pi: ExtensionAPI) {
   pi.registerTool({
-    name: "ask_user",
-    label: "Ask User",
+    name: "ben_ask_user",
+    label: "Ben Ask User",
     description: ASK_USER_TOOL_DESCRIPTION,
     promptSnippet: ASK_USER_PROMPT_SNIPPET,
     promptGuidelines: ASK_USER_PROMPT_GUIDELINES,
@@ -126,7 +126,7 @@ export default function askUser(pi: ExtensionAPI) {
         params.options.length > MAX_OPTIONS
       ) {
         throw new Error(
-          `ask_user requires between ${MIN_OPTIONS} and ${MAX_OPTIONS} options (got ${params.options.length}). Retry with a valid number of options.`,
+          `ben_ask_user requires between ${MIN_OPTIONS} and ${MAX_OPTIONS} options (got ${params.options.length}). Retry with a valid number of options.`,
         );
       }
 
@@ -370,7 +370,7 @@ export default function askUser(pi: ExtensionAPI) {
     },
 
     renderCall(args, theme, _context) {
-      let text = theme.fg("toolTitle", theme.bold("ask_user "));
+      let text = theme.fg("toolTitle", theme.bold("ben_ask_user "));
       text += theme.fg(
         "muted",
         typeof args.question === "string" ? args.question : "",
