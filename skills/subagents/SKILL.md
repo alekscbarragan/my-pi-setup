@@ -1,9 +1,9 @@
 ---
-name: subagents
-description: invoke this skill when the user asks you to use subagents
+name: ben-subagents
+description: invoke this skill when the user asks specifically to use Ben's subagents
 ---
 
-# Subagents
+# Ben Subagents
 
 Each subagent is headless, has its own context window, cannot see the parent conversation, cannot ask the user, and cannot spawn subagents or workflows. Give every child a self-contained prompt with paths, constraints, and the expected report.
 
@@ -58,12 +58,12 @@ Requires the Codex CLI to be installed and authenticated.
 
 ## Spawn and Manage
 
-Call `subagent_spawn` with a complete `prompt`, short `name`, chosen `harness`, and optional `working_dir`, `model`, and `reasoning_effort`. At most four subagents run concurrently.
+Call `ben_subagent_spawn` with a complete `prompt`, short `name`, chosen `harness`, and optional `working_dir`, `model`, and `reasoning_effort`. At most four Ben subagents run concurrently.
 
-- `subagent_check({ id })`: peek without blocking.
-- `subagent_list()`: list all runs.
-- `subagent_wait({ ids })`: block only when results are required to proceed.
-- `subagent_cancel({ ids })`: stop runs while preserving partial transcripts.
-- `/subagents`: inspect or take over a run interactively.
+- `ben_subagent_check({ id })`: peek without blocking.
+- `ben_subagent_list()`: list all runs.
+- `ben_subagent_wait({ ids })`: block only when results are required to proceed.
+- `ben_subagent_cancel({ ids })`: stop runs while preserving partial transcripts.
+- `/ben-subagents`: inspect or take over a run interactively.
 
 Results return automatically. After spawning, continue useful parent work instead of immediately waiting.

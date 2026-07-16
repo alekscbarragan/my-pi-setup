@@ -8,6 +8,10 @@ unified behind a single Effect v4 service interface.
 > **Status:** this document describes the original v1 plan (stubbed backends). All
 > three backends are now REAL implementations — see `src/backends/{pi,claude,codex}.ts`.
 > The stub machinery survives in `src/backends/stub.ts` for the manager test registry.
+>
+> **Fork integration:** runtime tools use the `ben_subagent_*` namespace and the dashboard
+> command is `/ben-subagents` so this extension can coexist with `pi-subagents`. Historical
+> sections below retain the upstream names when describing the original design.
 
 **Scope of the first version:** interface design + stubbed backend internals + the v1 UI
 carried over. No real Claude/Codex process integration yet; the pi backend may also stay

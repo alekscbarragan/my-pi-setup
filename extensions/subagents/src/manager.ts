@@ -101,7 +101,7 @@ export interface SubagentReadModel {
   requestAbort(id: string): void;
   /**
    * Register the settle hook. `consumed` is true when an active
-   * subagent_wait/cancel is collecting the result (so it must not also be
+   * ben_subagent_wait/cancel is collecting the result (so it must not also be
    * delivered as a follow-up message).
    */
   setOnSettled(
@@ -374,7 +374,7 @@ const makeManager = Effect.gen(function* () {
           }
           if (runningCount() + reserved >= MAX_RUNNING) {
             return new ConcurrencyLimitError({
-              message: `Max ${MAX_RUNNING} subagents can run concurrently. Wait for one to finish (subagent_wait) before spawning another.`,
+              message: `Max ${MAX_RUNNING} Ben subagents can run concurrently. Wait for one to finish (ben_subagent_wait) before spawning another.`,
             });
           }
           reserved++;
@@ -574,7 +574,7 @@ const makeManager = Effect.gen(function* () {
       if (entry.snapshot.status !== "running") {
         if (runningCount() + reserved >= MAX_RUNNING) {
           return new SendError({
-            message: `Max ${MAX_RUNNING} subagents can run concurrently; restarting "${id}" would exceed that.`,
+            message: `Max ${MAX_RUNNING} Ben subagents can run concurrently; restarting "${id}" would exceed that.`,
           });
         }
         // Occupy the slot synchronously: the RunStarted that flips status
