@@ -41,13 +41,17 @@ const CHILD_TOOL_CALL_TIMEOUT_MS = 3 * 60 * 1_000;
 
 /** Tools that headless children must not receive. Everything else stays enabled. */
 const CHILD_EXCLUDED_TOOL_NAMES = [
-  "subagent_spawn",
+  "subagent",
   "subagent_wait",
-  "subagent_cancel",
-  "subagent_check",
-  "subagent_list",
+  "ben_subagent_spawn",
+  "ben_subagent_wait",
+  "ben_subagent_cancel",
+  "ben_subagent_check",
+  "ben_subagent_list",
   "workflow",
+  "workflow_admit",
   "ask_user",
+  "ben_ask_user",
 ] as const;
 
 // --- Model + effort resolution -----------------------------------------------

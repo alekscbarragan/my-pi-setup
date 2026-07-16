@@ -3,15 +3,15 @@
  * (pi, Claude Code, Codex) unified behind a single Effect service interface.
  *
  * Tools (for the parent LLM):
- * - subagent_spawn: fire-and-forget spawn (prompt, title, agent, working_dir,
+ * - ben_subagent_spawn: fire-and-forget spawn (prompt, title, agent, working_dir,
  *   model, reasoning_effort). Max 4 running at once across all backends.
- * - subagent_wait: block until the listed subagents settle, return results.
- * - subagent_cancel: stop one or more running subagents.
- * - subagent_check: peek at a subagent's status and recent activity.
- * - subagent_list: list all subagents.
+ * - ben_subagent_wait: block until the listed subagents settle, return results.
+ * - ben_subagent_cancel: stop one or more running subagents.
+ * - ben_subagent_check: peek at a subagent's status and recent activity.
+ * - ben_subagent_list: list all subagents.
  *
  * Unawaited subagents queue their result as a follow-up message when they
- * settle. `/subagents` opens a picker + full interactive takeover view.
+ * settle. `/ben-subagents` opens a picker + full interactive takeover view.
  *
  * Architecture: Effect v4 generators throughout (backends -> manager ->
  * runtime); this file is the async boundary where tool handlers run effects
@@ -236,7 +236,7 @@ export default function (pi: ExtensionAPI) {
       return;
     }
     // Keep the result retractable while the parent is working. A later
-    // subagent_wait can consume it before agent_settled flushes follow-ups.
+    // ben_subagent_wait can consume it before agent_settled flushes follow-ups.
     // Defer a copy: the live snapshot keeps mutating if the subagent is
     // restarted before the deferred result flushes.
     resultDelivery.defer({ ...snap, meta: { ...snap.meta } });
@@ -268,8 +268,8 @@ export default function (pi: ExtensionAPI) {
   // --- Tools -------------------------------------------------------------
 
   pi.registerTool({
-    name: "subagent_spawn",
-    label: "Spawn Subagent",
+    name: "ben_subagent_spawn",
+    label: "Spawn Ben Subagent",
     description: SUBAGENT_SPAWN_TOOL_DESCRIPTION,
     promptSnippet: SUBAGENT_SPAWN_PROMPT_SNIPPET,
     promptGuidelines: SUBAGENT_SPAWN_PROMPT_GUIDELINES,
@@ -358,8 +358,8 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.registerTool({
-    name: "subagent_wait",
-    label: "Wait for Subagents",
+    name: "ben_subagent_wait",
+    label: "Wait for Ben Subagents",
     description: SUBAGENT_WAIT_TOOL_DESCRIPTION,
     parameters: Type.Object({
       ids: Type.Array(Type.String(), {
@@ -452,8 +452,8 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.registerTool({
-    name: "subagent_cancel",
-    label: "Cancel Subagents",
+    name: "ben_subagent_cancel",
+    label: "Cancel Ben Subagents",
     description: SUBAGENT_CANCEL_TOOL_DESCRIPTION,
     parameters: Type.Object({
       ids: Type.Array(Type.String(), {
@@ -502,8 +502,8 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.registerTool({
-    name: "subagent_check",
-    label: "Check Subagent",
+    name: "ben_subagent_check",
+    label: "Check Ben Subagent",
     description: SUBAGENT_CHECK_TOOL_DESCRIPTION,
     parameters: Type.Object({
       id: Type.String({
@@ -543,8 +543,8 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.registerTool({
-    name: "subagent_list",
-    label: "List Subagents",
+    name: "ben_subagent_list",
+    label: "List Ben Subagents",
     description: SUBAGENT_LIST_TOOL_DESCRIPTION,
     parameters: Type.Object({}),
     async execute() {
@@ -582,7 +582,7 @@ export default function (pi: ExtensionAPI) {
       const icon = failed ? theme.fg("error", "x") : theme.fg("success", "■");
       const header =
         `${icon} ` +
-        theme.fg("accent", theme.bold(`subagent ${details.id ?? "?"}`)) +
+        theme.fg("accent", theme.bold(`Ben subagent ${details.id ?? "?"}`)) +
         theme.fg(
           "muted",
           ` · ${details.title ?? ""} · ${failed ? "failed" : "finished"}`,
@@ -728,8 +728,8 @@ export default function (pi: ExtensionAPI) {
     handler: runByTheWay,
   });
 
-  pi.registerCommand("subagents", {
-    description: "List, inspect, and take over subagents",
+  pi.registerCommand("ben-subagents", {
+    description: "List, inspect, and take over Ben subagents",
     handler: async (_args, ctx) => {
       if (ctx.mode !== "tui") {
         if (ctx.hasUI)
@@ -742,7 +742,7 @@ export default function (pi: ExtensionAPI) {
       const manager = await getManager();
       if (manager.view.size() === 0) {
         ctx.ui.notify(
-          "No subagents yet. The agent spawns them with subagent_spawn.",
+          "No Ben subagents yet. The agent spawns them with ben_subagent_spawn.",
           "info",
         );
         return;
