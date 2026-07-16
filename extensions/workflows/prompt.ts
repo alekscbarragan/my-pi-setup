@@ -17,7 +17,7 @@ export const WORKFLOW_PARAMETER_DESCRIPTIONS = {
 
 /** Defines the workflow DSL, constraints, reliability guidance, and model-authored task examples. */
 export const WORKFLOW_TOOL_DESCRIPTION = [
-  "The workflow tool is only to be called when the user says 'ultracode' or specifically requests a workflow run.",
+  "Use workflow as the default multi-agent workflow runtime for ordinary workflow requests.",
   "Run a multi-agent workflow from a JavaScript orchestration script you write inline. Use this when a task benefits from fanning work out across several isolated subagents in ordered phases (research fan-out, per-file review, verify-then-synthesize pipelines).",
   "The script runs as an async function body with these primitives:",
   "• export const meta = { name, description, phases: [{ title, detail? }] } — metadata for the progress UI. Declare all phases up front.",
@@ -44,6 +44,7 @@ export const WORKFLOW_PROMPT_SNIPPET =
 
 /** Guides the model on appropriate workflow fan-out and mandatory agent result checks. */
 export const WORKFLOW_PROMPT_GUIDELINES = [
+  "Use workflow for ordinary multi-agent workflow requests; use workflow_admit only when the user explicitly asks for reviewed, admitted, bounded read-only execution or promotion review.",
   "Use workflow when a task needs several subagents with phase dependencies or dynamic fan-out; keep single small delegations in the main session.",
   "In workflow scripts, agent() never throws — always check `.ok` on its result before using `.output`/`.structured`.",
 ];
