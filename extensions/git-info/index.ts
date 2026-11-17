@@ -183,7 +183,7 @@ export default function gitInfo(pi: ExtensionAPI) {
     forkBackground(refreshIfIdle(ctx));
   };
 
-  pi.events.on(REFRESH_CHANNEL, () => {
+  const stopRefreshListener = pi.events.on(REFRESH_CHANNEL, () => {
     if (currentContext) refreshInBackground(currentContext);
   });
 
@@ -197,7 +197,9 @@ export default function gitInfo(pi: ExtensionAPI) {
       await getRuntime().runPromise(Fiber.interrupt(previousPollingFiber));
     }
 
-    await runEffect(getRuntime(), refresh(ctx));
+    // Do not block Pi startup on GitHub/network I/O. The initial refresh publishes
+    // state when it completes; polling continues to keep it current afterwards.
+    refreshInBackground(ctx);
     pollingFiber = forkBackground(poll());
   });
 
@@ -211,6 +213,7 @@ export default function gitInfo(pi: ExtensionAPI) {
   });
 
   pi.on("session_shutdown", async () => {
+    stopRefreshListener();
     generation += 1;
     currentContext = undefined;
     pollingFiber = undefined;

@@ -15,6 +15,7 @@ test("namespaces every Ben subagent entry point", () => {
       commands.push(name);
     },
     registerMessageRenderer() {},
+    registerEntryRenderer() {},
   } as never);
 
   assert.deepEqual(tools, [
@@ -24,5 +25,5 @@ test("namespaces every Ben subagent entry point", () => {
     "ben_subagent_check",
     "ben_subagent_list",
   ]);
-  assert.deepEqual(commands, ["ben-subagents"]);
+  assert.deepEqual(commands, ["btw", "ben-subagents"]);
 });

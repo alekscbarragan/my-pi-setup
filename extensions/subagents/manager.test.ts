@@ -193,7 +193,7 @@ test("the global concurrency cap includes by-the-way sessions", async () => {
           origin: "btw",
         }),
       ),
-      /Max 4 subagents/,
+      /Max 4 Ben subagents/,
     );
   });
 });
